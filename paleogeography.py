@@ -11,7 +11,7 @@ try:
     import matplotlib.pyplot as plt
     from mpl_toolkits.basemap import Basemap
 except:
-    print 'Failed to load plotting dependencies'
+    print('Failed to load plotting dependencies')
 
 
 def load_paleogeography(pg_dir,env_list=None,
@@ -22,7 +22,7 @@ def load_paleogeography(pg_dir,env_list=None,
         env_list = ['lm','m','sm','i']
 
     if single_file:
-        print pg_dir
+        print(pg_dir)
         features = pygplates.FeatureCollection(pg_dir)
         pg_features = []
         for feature in features:
@@ -35,14 +35,14 @@ def load_paleogeography(pg_dir,env_list=None,
         for env in env_list:
             try:
                 filename = glob.glob('%s/%s_*.shp' % (pg_dir,env))
-                print filename
+                print(filename)
                 features = pygplates.FeatureCollection(filename[0])
                 for feature in features:
                     feature.set_shapefile_attribute('Layer',env)
                     pg_features.append(feature)
 
             except:
-                print 'no features of type %s' % env
+                print('no features of type %s' % env)
 
     return pg_features
 
@@ -130,7 +130,7 @@ def load_netcdf(grdfile,z_field_name='z'):
     ds_disk = xr.open_dataset(grdfile)
 
     data_array = ds_disk[z_field_name]
-    coord_keys = data_array.coords.keys()
+    coord_keys = list(data_array.coords.keys())
 
     if 'lat' in coord_keys[0].lower():
         latitude_key=0; longitude_key=1
@@ -307,7 +307,7 @@ def find_distance_to_nearest_ridge(resolved_topologies,shared_boundary_sections,
 
     for topology in resolved_topologies:
         plate_id = topology.get_resolved_feature().get_reconstruction_plate_id()
-        print 'Generating distances for Plate %d ...' % plate_id
+        print('Generating distances for Plate %d ...' % plate_id)
 
         # Section to isolate the mid-ocean ridge segments that bound the current plate
         mid_ocean_ridges_on_plate = []
@@ -364,19 +364,19 @@ def find_distance_to_nearest_ridge(resolved_topologies,shared_boundary_sections,
 #
 def age2depth(age_array,model='GDH1'):
 
-    if model is 'GDH1':
+    if model == 'GDH1':
         paleodepth = 2600. + 365. * np.sqrt(age_array)
         paleodepth[age_array>=20.] = 5651 - 2473*np.exp(-0.0278*age_array[age_array>=20.])
         paleodepth = -paleodepth
 
-    elif model is 'Crosby':
+    elif model == 'Crosby':
         paleodepth = 2652. + (324. * np.sqrt(age_array))
         paleodepth[age_array>75.] = 5028. + 5.26*age_array[age_array>75.] - 250.*np.sin((age_array[age_array>75.]-75.)/30.)
         paleodepth[age_array>160.] = 5750.
         paleodepth = -paleodepth
 
     else:
-        print 'unknown depth model'
+        print('unknown depth model')
 
     return paleodepth
 

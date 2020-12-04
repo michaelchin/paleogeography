@@ -3,8 +3,7 @@ import sys
 import glob, re
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.basemap import Basemap
-import xarray as xr
+
 import points_spatial_tree
 
 import polygon_processing as pp
@@ -81,7 +80,7 @@ def get_change_mask_multipoints(pg_features,t1,t2,psl_t1,psl_t2,
                                 points,spatial_tree_of_uniform_recon_points,
                                 rotation_model,plot=False):
     
-    print 'Working on interpolation from %0.2f Ma to %0.2f Ma .....' % (t1,t2)
+    print('Working on interpolation from %0.2f Ma to %0.2f Ma .....' % (t1,t2))
         
     plate_partitioner = pygplates.PlatePartitioner(pg_features, rotation_model, reconstruction_time=t1)
     
@@ -114,7 +113,7 @@ def get_vertical_change_multipoints(pg_features,t1,t2,psl_t1,psl_t2,
                                     rotation_model,plot=False):
     # NOT WORKING DUE TO LACK OF SUPPORT FOR SCALAR COVERAGES
     
-    print 'Working on interpolation from %0.2f Ma to %0.2f Ma .....' % (t1,t2)
+    print('Working on interpolation from %0.2f Ma to %0.2f Ma .....' % (t1,t2))
         
     plate_partitioner = pygplates.PlatePartitioner(pg_features, rotation_model, reconstruction_time=t1)
     
@@ -163,7 +162,7 @@ def interpolate_paleoshoreline_for_stage(pg_features,t1,t2,psl_t1,psl_t2,time_st
                                          points,spatial_tree_of_uniform_recon_points,
                                          rotation_model,plot=False):
     
-    print 'Working on interpolation from %0.2f Ma to %0.2f Ma .....' % (t1,t2)
+    print('Working on interpolation from %0.2f Ma to %0.2f Ma .....' % (t1,t2))
     
     plate_partitioner = pygplates.PlatePartitioner(pg_features, rotation_model, reconstruction_time=t1)
     
